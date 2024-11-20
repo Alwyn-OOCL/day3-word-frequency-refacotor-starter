@@ -22,13 +22,17 @@ public class WordFrequencyGame {
                 //get the map for the next step of sizing the same word
                 frequencies = getWordFrequencies(frequencies);
 
-                return frequencies.stream()
-                        .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getWordCount())
-                        .collect(Collectors.joining(LINE_BREAK));
+                return joinWordFrequencyResult(frequencies);
             } catch (Exception e) {
                 return CALCULATE_ERROR;
             }
         }
+    }
+
+    private static String joinWordFrequencyResult(List<WordFrequency> frequencies) {
+        return frequencies.stream()
+                .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getWordCount())
+                .collect(Collectors.joining(LINE_BREAK));
     }
 
     private List<WordFrequency> getWordFrequencies(List<WordFrequency> frequencies) {
