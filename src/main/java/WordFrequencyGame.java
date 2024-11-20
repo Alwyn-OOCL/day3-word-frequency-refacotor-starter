@@ -12,20 +12,16 @@ public class WordFrequencyGame {
     public static final String LINE_BREAK = "\n";
 
     public String getWordFrequency(String sentence) {
-        if (sentence.split(REGEX).length == 1) {
-            return sentence + " 1";
-        } else {
-            try {
-                //split the input string with 1 to n pieces of spaces
-                List<WordFrequency> frequencies = getInitialWordFrequencies(sentence);
+        try {
+            //split the input string with 1 to n pieces of spaces
+            List<WordFrequency> frequencies = getInitialWordFrequencies(sentence);
 
-                //get the map for the next step of sizing the same word
-                frequencies = getWordFrequencies(frequencies);
+            //get the map for the next step of sizing the same word
+            frequencies = getWordFrequencies(frequencies);
 
-                return joinWordFrequencyResult(frequencies);
-            } catch (Exception e) {
-                return CALCULATE_ERROR;
-            }
+            return joinWordFrequencyResult(frequencies);
+        } catch (Exception e) {
+            return CALCULATE_ERROR;
         }
     }
 
