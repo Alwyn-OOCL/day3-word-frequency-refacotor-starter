@@ -6,13 +6,16 @@ import java.util.StringJoiner;
 
 public class WordFrequencyGame {
 
+    public static final String REGEX = "\\s+";
+    public static final String CALCULATE_ERROR = "Calculate Error";
+
     public String getWordFrequency(String sentence) {
-        if (sentence.split("\\s+").length == 1) {
+        if (sentence.split(REGEX).length == 1) {
             return sentence + " 1";
         } else {
             try {
                 //split the input string with 1 to n pieces of spaces
-                String[] words = sentence.split("\\s+");
+                String[] words = sentence.split(REGEX);
 
                 List<WordFrequency> frequencies = new ArrayList<>();
                 for (String word : words) {
@@ -32,14 +35,14 @@ public class WordFrequencyGame {
 
                 frequencies.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
 
-                StringJoiner joiner = new StringJoiner("\n");
+                StringJoiner joiner = new StringJoiner(System.lineSeparator());
                 for (WordFrequency wordFrequency : frequencies) {
-                    String s = wordFrequency.getWord() + " " + wordFrequency.getWordCount();
-                    joiner.add(s);
+                    String frequencyStr = wordFrequency.getWord() + " " + wordFrequency.getWordCount();
+                    joiner.add(frequencyStr);
                 }
                 return joiner.toString();
             } catch (Exception e) {
-                return "Calculate Error";
+                return CALCULATE_ERROR;
             }
         }
     }
