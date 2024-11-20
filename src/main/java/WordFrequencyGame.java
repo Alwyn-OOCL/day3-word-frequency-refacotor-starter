@@ -3,8 +3,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
 
@@ -20,33 +19,21 @@ public class WordFrequencyGame {
                 //split the input string with 1 to n pieces of spaces
                 String[] words = sentence.split(REGEX);
 
-                List<WordFrequency> frequencies = new ArrayList<>();
-                for (String word : words) {
-                    WordFrequency wordFrequency = new WordFrequency(word, 1);
-                    frequencies.add(wordFrequency);
-                }
-//                Arrays.stream(words)
-//                        .map(word -> new WordFrequency(word, 1))
-//                        .forEach(frequencies::add);
+                List<WordFrequency> frequencies = Arrays.stream(words)
+                        .map(word -> new WordFrequency(word, 1))
+                        .toList();
 
                 //get the map for the next step of sizing the same word
                 Map<String, List<WordFrequency>> wordFrequencyMap = getListMap(frequencies);
 
-                List<WordFrequency> wordFrequencies = new ArrayList<>();
-                for (Map.Entry<String, List<WordFrequency>> entry : wordFrequencyMap.entrySet()) {
-                    WordFrequency wordFrequency = new WordFrequency(entry.getKey(), entry.getValue().size());
-                    wordFrequencies.add(wordFrequency);
-                }
-                frequencies = wordFrequencies;
+                frequencies = wordFrequencyMap.entrySet().stream()
+                        .map(entry -> new WordFrequency(entry.getKey(), entry.getValue().size()))
+                        .sorted((word, nextWord) -> nextWord.getWordCount() - word.getWordCount())
+                        .toList();
 
-                frequencies.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
-
-                StringJoiner joiner = new StringJoiner(LINE_BREAK);
-                for (WordFrequency wordFrequency : frequencies) {
-                    String frequencyStr = wordFrequency.getWord() + " " + wordFrequency.getWordCount();
-                    joiner.add(frequencyStr);
-                }
-                return joiner.toString();
+                return frequencies.stream()
+                        .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getWordCount())
+                        .collect(Collectors.joining(LINE_BREAK));
             } catch (Exception e) {
                 return CALCULATE_ERROR;
             }
