@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.stream.IntStream;
 
 public class WordFrequencyGame {
 
     public static final String REGEX = "\\s+";
     public static final String CALCULATE_ERROR = "Calculate Error";
+    public static final String LINE_BREAK = "\n";
 
     public String getWordFrequency(String sentence) {
         if (sentence.split(REGEX).length == 1) {
@@ -22,6 +25,9 @@ public class WordFrequencyGame {
                     WordFrequency wordFrequency = new WordFrequency(word, 1);
                     frequencies.add(wordFrequency);
                 }
+//                Arrays.stream(words)
+//                        .map(word -> new WordFrequency(word, 1))
+//                        .forEach(frequencies::add);
 
                 //get the map for the next step of sizing the same word
                 Map<String, List<WordFrequency>> wordFrequencyMap = getListMap(frequencies);
@@ -35,7 +41,7 @@ public class WordFrequencyGame {
 
                 frequencies.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
 
-                StringJoiner joiner = new StringJoiner(System.lineSeparator());
+                StringJoiner joiner = new StringJoiner(LINE_BREAK);
                 for (WordFrequency wordFrequency : frequencies) {
                     String frequencyStr = wordFrequency.getWord() + " " + wordFrequency.getWordCount();
                     joiner.add(frequencyStr);
