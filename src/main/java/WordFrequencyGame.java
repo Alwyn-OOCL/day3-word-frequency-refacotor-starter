@@ -14,10 +14,8 @@ public class WordFrequencyGame {
 
     public String getWordFrequency(String sentence) {
         try {
-            //split the input string with 1 to n pieces of spaces
             List<WordFrequency> frequencies = getInitialWordFrequencies(sentence);
 
-            //get the map for the next step of sizing the same word
             frequencies = getWordFrequencies(frequencies);
 
             return joinWordFrequencyResult(frequencies);
